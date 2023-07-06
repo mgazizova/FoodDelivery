@@ -22,7 +22,6 @@ struct DishCompactView: View {
                 }
                 .frame(width: 80, height: 80)
             }
-            // TODO: how to not harcode this values?
             .frame(width: 109, height: 109)
             .background(Asset.Colors.backgroundGrey.color)
             .cornerRadius(10)

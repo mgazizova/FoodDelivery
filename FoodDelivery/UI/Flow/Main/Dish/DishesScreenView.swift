@@ -19,13 +19,20 @@ struct DishesScreenView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
                     ForEach(viewModel.tags) { tag in
-                        Button(tag.name) {
-                            print("Tag tapped")
-                        }
-                        .frame(width: 94, height: 35)
-                        .background(Asset.Colors.backgroundGrey.color)
-                        .cornerRadius(10)
-                        .font(.system(size: 15))
+                        Text(tag.name)
+                            .frame(width: 94, height: 35)
+                            .font(.system(size: 15))
+                            .background(viewModel.selectedTag == tag ? Asset.Colors.accent.color : Asset.Colors.backgroundGrey.color)
+                            .foregroundColor(viewModel.selectedTag == tag ? .white : .black)
+                            .cornerRadius(10)
+                            .onTapGesture {
+                                viewModel.selectedTag = tag
+                                viewModel.filterDisplayedDishes()
+                            }
+                    }
+                    .onAppear {
+                        viewModel.selectedTag = viewModel.tags[0]
+                        viewModel.filterDisplayedDishes()
                     }
                 }
             }
@@ -33,7 +40,7 @@ struct DishesScreenView: View {
             
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 14) {
-                    ForEach(viewModel.dishes) { dish in
+                    ForEach(viewModel.displayedDishes) { dish in
                         DishCompactView(dish: dish)
                             .onTapGesture {
                                 viewModel.selectedDish = dish

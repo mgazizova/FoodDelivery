@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct CounterView: View {
-    var count: Int
+    @Binding var count: Int
     
     var body: some View {
         HStack {
             Button {
-                print("-")
+                count -= 1
             } label: {
                 Asset.Images.minus
             }
@@ -25,7 +25,7 @@ struct CounterView: View {
                 .font(.system(size: 14))
             
             Button {
-                print("+")
+                count += 1
             } label: {
                 Asset.Images.plus
             }
@@ -33,11 +33,5 @@ struct CounterView: View {
         }
         .background(Asset.Colors.secondaryBackgroundGrey.color)
         .cornerRadius(10)
-    }
-}
-
-struct CounterView_Previews: PreviewProvider {
-    static var previews: some View {
-        CounterView(count: 1)
     }
 }

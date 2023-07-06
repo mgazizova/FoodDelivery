@@ -61,7 +61,6 @@ struct DishDetailView: View {
                     .padding(.bottom, 16)
                 
                 Button {
-                    print("Добавить в корзину")
                     viewModel.cartDishes[dish] = (viewModel.cartDishes[dish] ?? 0) + 1
                     self.viewModel.selectedDish = nil
                 } label: {

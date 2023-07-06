@@ -11,9 +11,12 @@ class HomeScreenViewModel: ObservableObject {
     @Published var coordinator: HomeScreenCoordinator
     @Published var categories: [Category] = []
     @Published var dishes: [Dish] = []
+    @Published var displayedDishes: [Dish] = []
     @Published var cartDishes: [Dish: Int] = [:]
     @Published var tags: [Tag] = []
     @Published var selectedDish: Dish?
+    @Published var selectedTag: Tag?
+    @Published var total: Int = 0
     
     private var networkService: NetworkServiceProtocol
     private var cancellable = Set<AnyCancellable>()
@@ -59,9 +62,7 @@ class HomeScreenViewModel: ObservableObject {
             }
         }.store(in: &cancellable)
     }
-}
-
-extension HomeScreenViewModel {
+    
     private func parseTags(from dishes: [Dish]) {
         let stringTags = dishes.flatMap {$0.tags}
         
@@ -75,6 +76,31 @@ extension HomeScreenViewModel {
         
         self.tags.sort {
             $0.count > $1.count
+        }
+    }
+}
+
+extension HomeScreenViewModel {
+    func calculateTotal() {
+        total = cartDishes.map {
+            $0.key.price * $0.value
+        }
+        .reduce(0, +)
+    }
+    
+    func filterCartDishes() {
+        cartDishes = cartDishes.filter {
+            $0.value > 0
+        }
+    }
+    
+    func filterDisplayedDishes() {
+        if let selectedTag {
+            displayedDishes = dishes.filter {
+                $0.tags.contains(selectedTag.name)
+            }
+        } else {
+            displayedDishes = dishes
         }
     }
 }

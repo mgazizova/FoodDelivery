@@ -10,7 +10,7 @@ import Kingfisher
 
 struct DishCartView: View {
     var dish: Dish
-    var count: Int
+    @Binding var count: Int
     
     var body: some View {
         HStack {
@@ -34,7 +34,7 @@ struct DishCartView: View {
             
             Spacer()
             
-            CounterView(count: count)
+            CounterView(count: $count)
         }
     }
 }

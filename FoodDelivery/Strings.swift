@@ -17,6 +17,7 @@ enum Strings {
     
     enum Action {
         static let addToCart = "Добавить в корзину"
+        static let pay = "Оплатить"
     }
     
     enum Warnings {
